@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "RapidAPI Hub - Learn to read and write Japanese kanji": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://mcp.rapidapi.com",
+        "--header",
+        "x-api-host: kanjialive-api.p.rapidapi.com",
+        "--header",
+        "x-api-key: 9de561973amshfec70e26ce9b2ebp16e61cjsn48b530671dc4"
+      ]
+    }
+  }
+}
