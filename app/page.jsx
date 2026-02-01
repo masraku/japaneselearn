@@ -2,7 +2,21 @@
 
 import { useProgress } from "@/lib/progress-context";
 import Link from "next/link";
-import ProgressBar from "@/components/ProgressBar";
+import { motion } from "framer-motion";
+import {
+  BookOpen,
+  Languages,
+  BrainCircuit,
+  Flame,
+  Library,
+  CheckCircle2,
+  History,
+  ArrowRight,
+  Trophy,
+  Sparkles,
+} from "lucide-react";
+import Background from "@/components/ui/Background";
+import Card from "@/components/ui/Card";
 
 export default function Home() {
   const {
@@ -20,8 +34,8 @@ export default function Home() {
 
   if (!isLoaded) {
     return (
-      <div className="flex justify-center items-center min-h-[50vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="flex justify-center items-center min-h-[80vh]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
       </div>
     );
   }
@@ -33,251 +47,357 @@ export default function Home() {
   const hiraganaProgress = getKanaProgress("hiragana");
   const katakanaProgress = getKanaProgress("katakana");
 
-  // Feature cards for navigation
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
   const features = [
     {
-      title: "Learn",
-      description: "Study Hiragana, Katakana & Kanji",
-      icon: "📖",
+      title: "Belajar",
+      description: "Kuasai Hiragana, Katakana & dasar Kanji",
+      icon: <BookOpen className="w-8 h-8" />,
       href: "/learn",
-      color: "from-blue-500 to-blue-600",
+      color: "bg-blue-500",
+      gradient: "from-blue-500 to-indigo-600",
     },
     {
       title: "Kanji",
-      description: "Browse JLPT N5-N3 Kanji",
-      icon: "漢",
+      description: "Jelajahi perpustakaan Kanji JLPT N5-N3",
+      icon: <Languages className="w-8 h-8" />,
       href: "/kanji",
-      color: "from-purple-500 to-purple-600",
+      color: "bg-purple-500",
+      gradient: "from-purple-500 to-fuchsia-600",
     },
     {
-      title: "Quiz",
-      description: "Test your knowledge",
-      icon: "🎯",
+      title: "Kuis",
+      description: "Uji kemampuanmu dan pantau progresmu",
+      icon: <BrainCircuit className="w-8 h-8" />,
       href: "/quiz",
-      color: "from-green-500 to-green-600",
+      color: "bg-emerald-500",
+      gradient: "from-emerald-500 to-teal-600",
     },
   ];
 
   return (
-    <main className="space-y-8">
-      {/* Hero Section */}
-      <div className="text-center py-8">
-        <h1 className="text-4xl font-bold text-gray-800 mb-2">
-          Japanese Learning App 🇯🇵
-        </h1>
-        <p className="text-gray-600">
-          Master Hiragana, Katakana, and Kanji step by step
-        </p>
-      </div>
+    <div className="space-y-12 pb-12">
+      <Background />
 
-      {/* Streak & Today Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-gradient-to-br from-orange-400 to-red-500 rounded-2xl p-4 text-white text-center">
-          <div className="text-4xl mb-1">🔥</div>
-          <div className="text-3xl font-bold">{streak}</div>
-          <div className="text-sm opacity-90">Day Streak</div>
-        </div>
-        <div className="bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl p-4 text-white text-center">
-          <div className="text-4xl mb-1">📚</div>
-          <div className="text-3xl font-bold">{todayStats.total}</div>
-          <div className="text-sm opacity-90">Learned Today</div>
-        </div>
-        <div className="bg-gradient-to-br from-purple-400 to-purple-600 rounded-2xl p-4 text-white text-center">
-          <div className="text-4xl mb-1">漢</div>
-          <div className="text-3xl font-bold">{learnedKanji.length}</div>
-          <div className="text-sm opacity-90">Kanji Mastered</div>
-        </div>
-        <div className="bg-gradient-to-br from-green-400 to-green-600 rounded-2xl p-4 text-white text-center">
-          <div className="text-4xl mb-1">✅</div>
-          <div className="text-3xl font-bold">{quizStats.totalQuizzes}</div>
-          <div className="text-sm opacity-90">Quizzes Taken</div>
-        </div>
-      </div>
+      {/* Hero Section */}
+      <motion.section
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="text-center py-12 md:py-20 relative"
+      >
+        <motion.div
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.2, type: "spring" }}
+          className="inline-block mb-4 px-4 py-1.5 rounded-full bg-white/50 backdrop-blur-md border border-white/20 text-sm font-medium text-indigo-900 shadow-sm"
+        >
+          Belajar bahasa Jepang dengan mudah & santai 🇯🇵
+        </motion.div>
+        <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight text-slate-900">
+          <span className="text-gradient">RakuGo</span>{" "}
+          <span className="text-3xl md:text-5xl text-slate-500">らく語</span>
+        </h1>
+        <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+          楽語 — Belajar Hiragana, Katakana, dan Kanji secara interaktif. Pantau
+          progresmu dan bangun kebiasaan belajar harian.
+        </p>
+      </motion.section>
+
+      {/* Stats Grid */}
+      <motion.div
+        variants={container}
+        initial="hidden"
+        animate="show"
+        className="grid grid-cols-2 lg:grid-cols-4 gap-4"
+      >
+        <Card className="flex flex-col items-center justify-center text-center py-8 border-orange-100 bg-orange-50/50 dark:bg-orange-900/20">
+          <div className="w-12 h-12 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center mb-3">
+            <Flame className="w-6 h-6" />
+          </div>
+          <div className="text-4xl font-bold text-slate-800 dark:text-slate-100 mb-1">
+            {streak}
+          </div>
+          <div className="text-sm font-medium text-slate-500 dark:text-slate-400">
+            Hari Streak
+          </div>
+        </Card>
+        <Card
+          delay={0.1}
+          className="flex flex-col items-center justify-center text-center py-8 border-blue-100 bg-blue-50/50 dark:bg-blue-900/20"
+        >
+          <div className="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mb-3">
+            <Library className="w-6 h-6" />
+          </div>
+          <div className="text-4xl font-bold text-slate-800 dark:text-slate-100 mb-1">
+            {todayStats.total}
+          </div>
+          <div className="text-sm font-medium text-slate-500 dark:text-slate-400">
+            Dipelajari Hari Ini
+          </div>
+        </Card>
+        <Card
+          delay={0.2}
+          className="flex flex-col items-center justify-center text-center py-8 border-purple-100 bg-purple-50/50 dark:bg-purple-900/20"
+        >
+          <div className="w-12 h-12 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center mb-3">
+            <Languages className="w-6 h-6" />
+          </div>
+          <div className="text-4xl font-bold text-slate-800 dark:text-slate-100 mb-1">
+            {learnedKanji.length}
+          </div>
+          <div className="text-sm font-medium text-slate-500 dark:text-slate-400">
+            Kanji Dikuasai
+          </div>
+        </Card>
+        <Card
+          delay={0.3}
+          className="flex flex-col items-center justify-center text-center py-8 border-emerald-100 bg-emerald-50/50 dark:bg-emerald-900/20"
+        >
+          <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mb-3">
+            <CheckCircle2 className="w-6 h-6" />
+          </div>
+          <div className="text-4xl font-bold text-slate-800 dark:text-slate-100 mb-1">
+            {quizStats.totalQuizzes}
+          </div>
+          <div className="text-sm font-medium text-slate-500 dark:text-slate-400">
+            Kuis Dikerjakan
+          </div>
+        </Card>
+      </motion.div>
 
       {/* Feature Cards */}
       <div className="grid md:grid-cols-3 gap-6">
-        {features.map((feature) => (
-          <Link
-            key={feature.title}
-            href={feature.href}
-            className={`bg-gradient-to-br ${feature.color} rounded-2xl p-6 text-white hover:scale-105 transition-transform shadow-lg`}
-          >
-            <div className="text-5xl mb-4">{feature.icon}</div>
-            <h2 className="text-2xl font-bold mb-2">{feature.title}</h2>
-            <p className="opacity-90">{feature.description}</p>
+        {features.map((feature, idx) => (
+          <Link key={feature.title} href={feature.href} className="group">
+            <Card
+              delay={0.4 + idx * 0.1}
+              className="h-full relative overflow-hidden border-0 !bg-transparent !shadow-none p-0"
+            >
+              <div
+                className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-90 transition-opacity group-hover:opacity-100`}
+              />
+              <div className="relative p-8 text-white h-full flex flex-col items-start z-10">
+                <div className="bg-white/20 p-3 rounded-2xl mb-6 backdrop-blur-sm">
+                  {feature.icon}
+                </div>
+                <h2 className="text-3xl font-bold mb-2">{feature.title}</h2>
+                <p className="text-blue-50/90 mb-8 leading-relaxed">
+                  {feature.description}
+                </p>
+                <div className="mt-auto flex items-center gap-2 font-semibold bg-white/20 pl-4 pr-3 py-2 rounded-full text-sm backdrop-blur-md transition-transform group-hover:translate-x-1">
+                  Mulai Belajar <ArrowRight className="w-4 h-4" />
+                </div>
+              </div>
+            </Card>
           </Link>
         ))}
       </div>
 
-      {/* Progress Overview */}
-      <div className="bg-white rounded-2xl shadow-lg p-6">
-        <h2 className="text-xl font-bold text-gray-800 mb-4">📊 Your Progress</h2>
-        <div className="space-y-4">
-          <div>
-            <div className="flex justify-between text-sm text-gray-600 mb-1">
-              <span>Hiragana</span>
-              <span>{hiraganaProgress.learned}/46</span>
-            </div>
-            <div className="w-full bg-gray-200 rounded-full h-3">
-              <div
-                className="bg-blue-500 h-3 rounded-full transition-all"
-                style={{ width: `${hiraganaProgress.percentage}%` }}
-              ></div>
-            </div>
+      <div className="grid lg:grid-cols-3 gap-8">
+        {/* Progress Overview (2/3 width) */}
+        <Card delay={0.6} className="lg:col-span-2">
+          <div className="flex items-center gap-3 mb-6">
+            <Trophy className="w-6 h-6 text-yellow-500" />
+            <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100">
+              Progresmu
+            </h2>
           </div>
-          <div>
-            <div className="flex justify-between text-sm text-gray-600 mb-1">
-              <span>Katakana</span>
-              <span>{katakanaProgress.learned}/46</span>
-            </div>
-            <div className="w-full bg-gray-200 rounded-full h-3">
-              <div
-                className="bg-purple-500 h-3 rounded-full transition-all"
-                style={{ width: `${katakanaProgress.percentage}%` }}
-              ></div>
-            </div>
-          </div>
-          <div>
-            <div className="flex justify-between text-sm text-gray-600 mb-1">
-              <span>Kanji Learned</span>
-              <span>{learnedKanji.length} characters</span>
-            </div>
-            <div className="w-full bg-gray-200 rounded-full h-3">
-              <div
-                className="bg-green-500 h-3 rounded-full transition-all"
-                style={{ width: `${Math.min((learnedKanji.length / 300) * 100, 100)}%` }}
-              ></div>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      {/* Two Column Layout */}
-      <div className="grid md:grid-cols-2 gap-6">
-        {/* Recent Activity */}
-        <div className="bg-white rounded-2xl shadow-lg p-6">
-          <h2 className="text-xl font-bold text-gray-800 mb-4">🕐 Recent Activity</h2>
-          {recentActivity.length === 0 ? (
-            <p className="text-gray-500 text-center py-8">
-              No activity yet. Start learning!
-            </p>
-          ) : (
-            <div className="space-y-3">
-              {recentActivity.map((activity) => (
-                <div
-                  key={activity.id}
-                  className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg"
-                >
-                  <span className="text-2xl">
-                    {activity.type === "kanji" ? "漢" : activity.type === "hiragana" ? "あ" : "ア"}
-                  </span>
-                  <div className="flex-1">
-                    <div className="font-medium">{activity.item}</div>
-                    <div className="text-xs text-gray-500">
-                      {new Date(activity.date).toLocaleString()}
-                    </div>
-                  </div>
-                  <span
-                    className={`text-xs px-2 py-1 rounded-full ${
-                      activity.type === "kanji"
-                        ? "bg-green-100 text-green-700"
-                        : activity.type === "hiragana"
-                        ? "bg-blue-100 text-blue-700"
-                        : "bg-purple-100 text-purple-700"
-                    }`}
-                  >
-                    {activity.type}
-                  </span>
+          <div className="space-y-6">
+            <div>
+              <div className="flex justify-between text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">
+                <span className="flex items-center gap-2">🇯🇵 Hiragana</span>
+                <span>{hiraganaProgress.learned} / 46</span>
+              </div>
+              <div className="w-full bg-slate-100 rounded-full h-4 overflow-hidden">
+                <motion.div
+                  initial={{ width: 0 }}
+                  whileInView={{ width: `${hiraganaProgress.percentage}%` }}
+                  transition={{ duration: 1, ease: "easeOut" }}
+                  className="bg-blue-500 h-full rounded-full"
+                />
+              </div>
+            </div>
+
+            <div>
+              <div className="flex justify-between text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">
+                <span className="flex items-center gap-2">🎌 Katakana</span>
+                <span>{katakanaProgress.learned} / 46</span>
+              </div>
+              <div className="w-full bg-slate-100 rounded-full h-4 overflow-hidden">
+                <motion.div
+                  initial={{ width: 0 }}
+                  whileInView={{ width: `${katakanaProgress.percentage}%` }}
+                  transition={{ duration: 1, ease: "easeOut", delay: 0.1 }}
+                  className="bg-purple-500 h-full rounded-full"
+                />
+              </div>
+            </div>
+
+            <div>
+              <div className="flex justify-between text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">
+                <span className="flex items-center gap-2">💮 Kanji</span>
+                <span>{learnedKanji.length} karakter</span>
+              </div>
+              <div className="w-full bg-slate-100 rounded-full h-4 overflow-hidden">
+                <motion.div
+                  initial={{ width: 0 }}
+                  whileInView={{
+                    width: `${Math.min((learnedKanji.length / 300) * 100, 100)}%`,
+                  }}
+                  transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
+                  className="bg-emerald-500 h-full rounded-full"
+                />
+              </div>
+            </div>
+          </div>
+        </Card>
+
+        {/* Quick Recent Activity (1/3 width) */}
+        <Card delay={0.7} className="lg:col-span-1 flex flex-col">
+          <div className="flex items-center gap-3 mb-6">
+            <History className="w-6 h-6 text-indigo-500" />
+            <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100">
+              Aktivitas Terbaru
+            </h2>
+          </div>
+
+          <div className="flex-1">
+            {recentActivity.length === 0 ? (
+              <div className="h-full flex flex-col items-center justify-center text-center p-4">
+                <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-3">
+                  <Sparkles className="w-8 h-8 text-slate-300" />
                 </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Quiz History */}
-        <div className="bg-white rounded-2xl shadow-lg p-6">
-          <h2 className="text-xl font-bold text-gray-800 mb-4">📝 Quiz History</h2>
-          {quizHistory.length === 0 ? (
-            <div className="text-center py-8">
-              <p className="text-gray-500 mb-4">No quizzes taken yet</p>
-              <Link
-                href="/quiz"
-                className="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-              >
-                Take a Quiz
-              </Link>
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {quizHistory.slice(0, 5).map((quiz) => (
-                <div
-                  key={quiz.id}
-                  className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
-                >
-                  <div>
-                    <div className="font-medium">{quiz.level} Quiz</div>
-                    <div className="text-xs text-gray-500">
-                      {new Date(quiz.date).toLocaleDateString()}
-                    </div>
-                  </div>
-                  <div className="text-right">
+                <p className="text-slate-400 text-sm">
+                  Belum ada aktivitas.
+                  <br />
+                  Mulai pelajaran pertamamu!
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {recentActivity.map((activity, i) => (
+                  <motion.div
+                    key={activity.id}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.8 + i * 0.1 }}
+                    className="flex items-center gap-3 p-3 bg-slate-50/80 dark:bg-slate-700/50 rounded-xl hover:bg-white dark:hover:bg-slate-700 transition-colors border border-transparent hover:border-slate-100 dark:hover:border-slate-600"
+                  >
                     <div
-                      className={`text-lg font-bold ${
-                        quiz.score / quiz.totalQuestions >= 0.8
-                          ? "text-green-600"
-                          : quiz.score / quiz.totalQuestions >= 0.5
-                          ? "text-yellow-600"
-                          : "text-red-600"
+                      className={`w-10 h-10 rounded-lg flex items-center justify-center text-lg font-bold
+                      ${
+                        activity.type === "kanji"
+                          ? "bg-emerald-100 text-emerald-700"
+                          : activity.type === "hiragana"
+                            ? "bg-blue-100 text-blue-700"
+                            : "bg-purple-100 text-purple-700"
                       }`}
                     >
-                      {quiz.score}/{quiz.totalQuestions}
+                      {activity.type === "kanji"
+                        ? "漢"
+                        : activity.type === "hiragana"
+                          ? "あ"
+                          : "ア"}
                     </div>
-                    <div className="text-xs text-gray-500">
-                      {Math.round((quiz.score / quiz.totalQuestions) * 100)}%
+                    <div className="flex-1 min-w-0">
+                      <div className="font-semibold text-slate-700 dark:text-slate-200 truncate">
+                        {activity.item}
+                      </div>
+                      <div className="text-xs text-slate-500 dark:text-slate-400">
+                        {new Date(activity.date).toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </div>
                     </div>
-                  </div>
-                </div>
-              ))}
-              {quizHistory.length > 5 && (
-                <Link
-                  href="/quiz"
-                  className="block text-center text-blue-600 hover:text-blue-800 text-sm"
-                >
-                  View all quizzes →
-                </Link>
-              )}
-            </div>
-          )}
-        </div>
+                  </motion.div>
+                ))}
+              </div>
+            )}
+          </div>
+        </Card>
       </div>
 
-      {/* Quick Start Guide */}
-      <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-6">
-        <h2 className="text-xl font-bold text-gray-800 mb-4">🚀 Quick Start Guide</h2>
-        <div className="grid md:grid-cols-3 gap-4 text-sm">
-          <div className="flex gap-3">
-            <span className="text-2xl">1️⃣</span>
-            <div>
-              <div className="font-semibold">Learn Hiragana</div>
-              <p className="text-gray-600">Master the basic alphabet first</p>
-            </div>
+      {/* Quiz History Section */}
+      <Card delay={0.8}>
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-3">
+            <BrainCircuit className="w-6 h-6 text-pink-500" />
+            <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100">
+              Kuis Terbaru
+            </h2>
           </div>
-          <div className="flex gap-3">
-            <span className="text-2xl">2️⃣</span>
-            <div>
-              <div className="font-semibold">Study Katakana</div>
-              <p className="text-gray-600">Used for foreign words</p>
-            </div>
-          </div>
-          <div className="flex gap-3">
-            <span className="text-2xl">3️⃣</span>
-            <div>
-              <div className="font-semibold">Practice Kanji</div>
-              <p className="text-gray-600">Start with JLPT N5 level</p>
-            </div>
-          </div>
+          {quizHistory.length > 0 && (
+            <Link
+              href="/quiz"
+              className="text-sm font-semibold text-indigo-600 hover:text-indigo-700 flex items-center gap-1"
+            >
+              Lihat Semua <ArrowRight className="w-3 h-3" />
+            </Link>
+          )}
         </div>
-      </div>
-    </main>
+
+        {quizHistory.length === 0 ? (
+          <div className="text-center py-12 bg-slate-50/50 rounded-2xl border border-dashed border-slate-200">
+            <p className="text-slate-500 mb-4">
+              Kamu belum mengerjakan kuis apapun.
+            </p>
+            <Link
+              href="/quiz"
+              className="inline-flex items-center gap-2 px-6 py-2.5 bg-indigo-600 text-white rounded-full font-medium hover:bg-indigo-700 transition shadow-lg shadow-indigo-200"
+            >
+              <BrainCircuit className="w-4 h-4" /> Mulai Kuis Pertama
+            </Link>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="text-xs uppercase text-slate-400 dark:text-slate-500 border-b border-slate-100 dark:border-slate-700">
+                  <th className="py-3 pl-2 font-semibold">Level</th>
+                  <th className="py-3 font-semibold">Tanggal</th>
+                  <th className="py-3 font-semibold">Skor</th>
+                  <th className="py-3 pr-2 font-semibold text-right">
+                    Persentase
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="text-sm">
+                {quizHistory.slice(0, 5).map((quiz) => (
+                  <tr
+                    key={quiz.id}
+                    className="border-b border-slate-50 dark:border-slate-700/50 last:border-0 hover:bg-slate-50/50 dark:hover:bg-slate-700/50 transition-colors"
+                  >
+                    <td className="py-3 pl-2 font-medium text-slate-700 dark:text-slate-200">
+                      Kuis {quiz.level}
+                    </td>
+                    <td className="py-3 text-slate-500 dark:text-slate-400">
+                      {new Date(quiz.date).toLocaleDateString()}
+                    </td>
+                    <td className="py-3 font-semibold text-slate-700 dark:text-slate-200">
+                      {quiz.score}/{quiz.totalQuestions}
+                    </td>
+                    <td className="py-3 pr-2 text-right font-bold text-indigo-600 dark:text-indigo-400">
+                      {Math.round((quiz.score / quiz.totalQuestions) * 100)}%
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </Card>
+    </div>
   );
 }
