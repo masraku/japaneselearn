@@ -1,24 +1,63 @@
 import KanjiDetailClient from "@/components/KanjiDetailClient";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-
 async function getKanjiDetail(char) {
-  const res = await fetch(
-    `${BASE_URL}/api/kanji/detail?q=${encodeURIComponent(char)}`,
-    { cache: "no-store" }
-  );
+  const headers = {
+    "X-RapidAPI-Key": process.env.RAPIDAPI_KEY,
+    "X-RapidAPI-Host": process.env.RAPIDAPI_HOST,
+  };
 
-  if (!res.ok) {
+  try {
+    // 1. Search first
+    const searchRes = await fetch(
+      `https://kanjialive-api.p.rapidapi.com/api/public/search/${encodeURIComponent(char)}`,
+      { headers, cache: "no-store" },
+    );
+
+    if (!searchRes.ok) {
+      return null;
+    }
+
+    const searchData = await searchRes.json();
+
+    if (!searchData.length) {
+      return null;
+    }
+
+    const kanjiChar =
+      searchData[0]?.kanji?.character ||
+      (typeof searchData[0]?.kanji === "string" ? searchData[0].kanji : null);
+
+    if (!kanjiChar) {
+      return null;
+    }
+
+    // 2. Get detail
+    const detailRes = await fetch(
+      `https://kanjialive-api.p.rapidapi.com/api/public/kanji/${encodeURIComponent(kanjiChar)}`,
+      { headers, cache: "no-store" },
+    );
+
+    if (!detailRes.ok) {
+      return null;
+    }
+
+    const detailData = await detailRes.json();
+
+    if (detailData?.Error) {
+      return null;
+    }
+
+    return detailData;
+  } catch (error) {
+    console.error("Error fetching kanji detail:", error);
     return null;
   }
-
-  return res.json();
 }
 
 export default async function KanjiDetailPage({ params }) {
   const { char } = await params;
   const decodedChar = decodeURIComponent(char);
-  
+
   if (!decodedChar) {
     return (
       <div className="text-center py-12">
@@ -28,12 +67,15 @@ export default async function KanjiDetailPage({ params }) {
   }
 
   const data = await getKanjiDetail(decodedChar);
-  
+
   if (!data || !data.kanji) {
     return (
       <div className="text-center py-12">
         <p className="text-xl text-gray-600">Could not load kanji details</p>
-        <a href="/kanji" className="text-blue-600 hover:underline mt-4 inline-block">
+        <a
+          href="/kanji"
+          className="text-blue-600 hover:underline mt-4 inline-block"
+        >
           ← Back to Kanji List
         </a>
       </div>

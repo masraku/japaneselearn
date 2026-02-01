@@ -93,14 +93,14 @@ export default function KanjiDetailClient({ kanji, kanjiData }) {
 
         {/* Main Hero Card */}
         <div className="grid md:grid-cols-3 gap-6">
-          <Card className="md:col-span-1 flex flex-col items-center justify-center text-center py-12 bg-white/60 backdrop-blur-xl border-white/60">
+          <Card className="md:col-span-1 flex flex-col items-center justify-center text-center py-12 bg-white/60 dark:bg-slate-800/60 backdrop-blur-xl border-white/60 dark:border-slate-700/60">
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ type: "spring", bounce: 0.5 }}
               className="relative"
             >
-              <h1 className="text-9xl font-bold bg-gradient-to-br from-slate-700 to-slate-900 bg-clip-text text-transparent mb-4">
+              <h1 className="text-9xl font-bold bg-gradient-to-br from-slate-700 to-slate-900 dark:from-slate-200 dark:to-white bg-clip-text text-transparent mb-4">
                 {kanji.character}
               </h1>
               {learned && (
@@ -113,7 +113,7 @@ export default function KanjiDetailClient({ kanji, kanjiData }) {
                 </motion.div>
               )}
             </motion.div>
-            <p className="text-2xl font-medium text-slate-600 capitalize">
+            <p className="text-2xl font-medium text-slate-600 dark:text-slate-300 capitalize">
               {kanji.meaning?.english || "-"}
             </p>
           </Card>
@@ -122,21 +122,21 @@ export default function KanjiDetailClient({ kanji, kanjiData }) {
             {/* Readings */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 h-full">
               {/* Onyomi */}
-              <Card className="flex flex-col justify-between bg-indigo-50/50 border-indigo-100">
+              <Card className="flex flex-col justify-between bg-indigo-50/50 dark:bg-indigo-900/30 border-indigo-100 dark:border-indigo-700/50">
                 <div>
                   <div className="flex items-center gap-2 mb-4">
-                    <span className="p-2 bg-indigo-100 rounded-lg text-indigo-600">
+                    <span className="p-2 bg-indigo-100 dark:bg-indigo-800 rounded-lg text-indigo-600 dark:text-indigo-300">
                       <Volume2 className="w-5 h-5" />
                     </span>
-                    <h3 className="font-bold text-indigo-900">
+                    <h3 className="font-bold text-indigo-900 dark:text-indigo-300">
                       Onyomi (Chinese)
                     </h3>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-3xl font-bold text-slate-800">
+                    <p className="text-3xl font-bold text-slate-800 dark:text-white">
                       {kanji.onyomi?.katakana || "-"}
                     </p>
-                    <p className="text-slate-500 font-medium">
+                    <p className="text-slate-500 dark:text-slate-400 font-medium">
                       {kanji.onyomi?.romaji || "-"}
                     </p>
                   </div>
@@ -146,7 +146,7 @@ export default function KanjiDetailClient({ kanji, kanjiData }) {
                     onClick={() =>
                       speakJapanese(kanji.onyomi.katakana, "onyomi")
                     }
-                    className="mt-4 w-full py-2 bg-white text-indigo-600 rounded-xl font-semibold shadow-sm hover:bg-indigo-50 transition-colors flex items-center justify-center gap-2"
+                    className="mt-4 w-full py-2 bg-white dark:bg-indigo-700 text-indigo-600 dark:text-white rounded-xl font-semibold shadow-sm hover:bg-indigo-50 dark:hover:bg-indigo-600 transition-colors flex items-center justify-center gap-2"
                   >
                     {isPlaying === "onyomi" ? (
                       <Volume2 className="animate-pulse w-4 h-4" />
@@ -159,21 +159,21 @@ export default function KanjiDetailClient({ kanji, kanjiData }) {
               </Card>
 
               {/* Kunyomi */}
-              <Card className="flex flex-col justify-between bg-emerald-50/50 border-emerald-100">
+              <Card className="flex flex-col justify-between bg-emerald-50/50 dark:bg-emerald-900/30 border-emerald-100 dark:border-emerald-700/50">
                 <div>
                   <div className="flex items-center gap-2 mb-4">
-                    <span className="p-2 bg-emerald-100 rounded-lg text-emerald-600">
+                    <span className="p-2 bg-emerald-100 dark:bg-emerald-800 rounded-lg text-emerald-600 dark:text-emerald-300">
                       <Volume2 className="w-5 h-5" />
                     </span>
-                    <h3 className="font-bold text-emerald-900">
+                    <h3 className="font-bold text-emerald-900 dark:text-emerald-300">
                       Kunyomi (Japanese)
                     </h3>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-3xl font-bold text-slate-800">
+                    <p className="text-3xl font-bold text-slate-800 dark:text-white">
                       {kanji.kunyomi?.hiragana || "-"}
                     </p>
-                    <p className="text-slate-500 font-medium">
+                    <p className="text-slate-500 dark:text-slate-400 font-medium">
                       {kanji.kunyomi?.romaji || "-"}
                     </p>
                   </div>
@@ -183,7 +183,7 @@ export default function KanjiDetailClient({ kanji, kanjiData }) {
                     onClick={() =>
                       speakJapanese(kanji.kunyomi.hiragana, "kunyomi")
                     }
-                    className="mt-4 w-full py-2 bg-white text-emerald-600 rounded-xl font-semibold shadow-sm hover:bg-emerald-50 transition-colors flex items-center justify-center gap-2"
+                    className="mt-4 w-full py-2 bg-white dark:bg-emerald-700 text-emerald-600 dark:text-white rounded-xl font-semibold shadow-sm hover:bg-emerald-50 dark:hover:bg-emerald-600 transition-colors flex items-center justify-center gap-2"
                   >
                     {isPlaying === "kunyomi" ? (
                       <Volume2 className="animate-pulse w-4 h-4" />
@@ -200,39 +200,39 @@ export default function KanjiDetailClient({ kanji, kanjiData }) {
 
         {/* Details Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Card className="text-center py-4 bg-white/50 backdrop-blur-sm">
+          <Card className="text-center py-4 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm">
             <PenTool className="w-6 h-6 mx-auto mb-2 text-blue-500" />
-            <div className="text-2xl font-bold text-slate-800">
+            <div className="text-2xl font-bold text-slate-800 dark:text-white">
               {kanji.strokes?.count || "-"}
             </div>
-            <div className="text-xs text-slate-500 uppercase font-bold tracking-wider">
+            <div className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider">
               Strokes
             </div>
           </Card>
-          <Card className="text-center py-4 bg-white/50 backdrop-blur-sm">
+          <Card className="text-center py-4 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm">
             <Layers className="w-6 h-6 mx-auto mb-2 text-purple-500" />
-            <div className="text-2xl font-bold text-slate-800">
-              {kanji.radical?.character || "-"}
+            <div className="text-2xl font-bold text-slate-800 dark:text-white">
+              {kanjiData?.radical?.character || "-"}
             </div>
-            <div className="text-xs text-slate-500 uppercase font-bold tracking-wider">
+            <div className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider">
               Radical
             </div>
           </Card>
-          <Card className="text-center py-4 bg-white/50 backdrop-blur-sm">
+          <Card className="text-center py-4 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm">
             <GraduationCap className="w-6 h-6 mx-auto mb-2 text-green-500" />
-            <div className="text-2xl font-bold text-slate-800">
+            <div className="text-2xl font-bold text-slate-800 dark:text-white">
               {kanjiData?.references?.grade || "-"}
             </div>
-            <div className="text-xs text-slate-500 uppercase font-bold tracking-wider">
+            <div className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider">
               Grade
             </div>
           </Card>
-          <Card className="text-center py-4 bg-white/50 backdrop-blur-sm">
+          <Card className="text-center py-4 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm">
             <BookOpen className="w-6 h-6 mx-auto mb-2 text-orange-500" />
-            <div className="text-2xl font-bold text-slate-800">
+            <div className="text-2xl font-bold text-slate-800 dark:text-white">
               {kanjiData?.references?.kodansha || "-"}
             </div>
-            <div className="text-xs text-slate-500 uppercase font-bold tracking-wider">
+            <div className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider">
               Kodansha
             </div>
           </Card>
@@ -240,9 +240,10 @@ export default function KanjiDetailClient({ kanji, kanjiData }) {
 
         {/* Stroke Order */}
         {kanji.strokes?.images && kanji.strokes.images.length > 0 && (
-          <Card className="bg-white/70 backdrop-blur-md">
-            <h3 className="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
-              <PenTool className="w-5 h-5 text-slate-500" /> Stroke Order
+          <Card className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md">
+            <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-2">
+              <PenTool className="w-5 h-5 text-slate-500 dark:text-slate-400" />{" "}
+              Stroke Order
             </h3>
             <div className="flex flex-wrap gap-2 justify-center">
               {kanji.strokes.images.map((img, idx) => (
@@ -263,7 +264,7 @@ export default function KanjiDetailClient({ kanji, kanjiData }) {
                 <video
                   src={kanji.strokes.video}
                   controls
-                  className="rounded-xl shadow-md max-w-full md:max-w-sm border border-slate-200"
+                  className="rounded-xl shadow-md max-w-full md:max-w-sm border border-slate-200 dark:border-slate-600"
                 />
               </div>
             )}
@@ -272,21 +273,22 @@ export default function KanjiDetailClient({ kanji, kanjiData }) {
 
         {/* Example Words */}
         {kanjiData?.examples && kanjiData.examples.length > 0 && (
-          <Card className="bg-white/70 backdrop-blur-md">
-            <h3 className="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
-              <BookOpen className="w-5 h-5 text-slate-500" /> Example Words
+          <Card className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md">
+            <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-2">
+              <BookOpen className="w-5 h-5 text-slate-500 dark:text-slate-400" />{" "}
+              Example Words
             </h3>
             <div className="grid md:grid-cols-2 gap-4">
               {kanjiData.examples.slice(0, 6).map((example, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center justify-between p-4 bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow"
+                  className="flex items-center justify-between p-4 bg-white dark:bg-slate-700 rounded-xl border border-slate-100 dark:border-slate-600 shadow-sm hover:shadow-md transition-shadow"
                 >
                   <div className="flex-1">
-                    <div className="text-xl font-bold text-slate-800 mb-1">
+                    <div className="text-xl font-bold text-slate-800 dark:text-white mb-1">
                       {example.japanese}
                     </div>
-                    <div className="text-sm text-slate-500 font-medium">
+                    <div className="text-sm text-slate-500 dark:text-slate-400 font-medium">
                       {example.meaning?.english || "-"}
                     </div>
                   </div>
@@ -295,7 +297,7 @@ export default function KanjiDetailClient({ kanji, kanjiData }) {
                       onClick={() =>
                         playAudio(example.audio.mp3, `example-${idx}`)
                       }
-                      className="p-3 bg-slate-50 text-indigo-600 rounded-full hover:bg-indigo-100 transition-colors"
+                      className="p-3 bg-slate-50 dark:bg-slate-600 text-indigo-600 dark:text-indigo-300 rounded-full hover:bg-indigo-100 dark:hover:bg-indigo-700 transition-colors"
                     >
                       {isPlaying === `example-${idx}` ? (
                         <Volume2 className="animate-pulse w-5 h-5" />
